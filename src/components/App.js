@@ -9,30 +9,36 @@ class App extends Component {
             posi : 0,
             ballPosition: { left: "0px" }
         };
-        this.renderChoice = this.renderBallOrButton.bind(this)
+        this.renderChoice = this.renderChoice.bind(this)
         this.buttonClickHandler = this.buttonClickHandler.bind(this)
     };
 
+
     buttonClickHandler() {
-   
-   }
-    renderBallOrButton() {
-		if (this.state.renderBall) {
-		    return <div className="ball" style={this.state.ballPosition}></div>
-		} else {
-		    return <button onClick={this.buttonClickHandler} >Click For One Ball</button>
-		}
+        this.setState({ renderBall: true })
+    }
+    renderChoice() {
+        if (this.state.renderBall === false) {
+            return <button onClick={this.buttonClickHandler} >Click For One Ball</button>
+        }
+        else if (this.state.renderBall === true) {
+            return <div className="ball" style={this.state.ballPosition}></div>
+        }
     }
 
-    // bind ArrowRight keydown event
     componentDidMount() {
-      
+        
+        document.addEventListener("keydown", (e) => {
+            if (e.key === 'ArrowRight') {
+                this.setState({ ballPosition: { left: this.state.posi+5+ "px"}, posi: this.state.posi + 5 })
+            }
+        })
     }
 
     render() {
         return (
             <div className="playground">
-                {this.renderBallOrButton()}
+                {this.renderChoice()}
             </div>
         )
     }
